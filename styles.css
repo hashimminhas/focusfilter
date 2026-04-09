@@ -65,3 +65,21 @@ html[data-ff-global="1"][data-ff-rule-yt-shorts-nav="1"]
 div[class="reel-video-in-sequence-new style-scope ytd-shorts"][id="2"] {
     display: none !important;
 }
+
+/* Hide ad info overlay */
+html[data-ff-global="1"][data-ff-rule-yt-ads="1"]
+.ytp-ad-overlay-container,
+html[data-ff-global="1"][data-ff-rule-yt-ads="1"]
+.ytp-ad-text-overlay,
+html[data-ff-global="1"][data-ff-rule-yt-ads="1"]
+.ytp-ad-image-overlay {
+    display: none !important;
+}
+
+/* Hide the "Ad" badge and bottom banner during ads */
+html[data-ff-global="1"][data-ff-rule-yt-ads="1"]
+.ytp-ad-player-overlay,
+html[data-ff-global="1"][data-ff-rule-yt-ads="1"]
+.ytp-ad-button-icon {
+    display: none !important;
+}

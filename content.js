@@ -1,7 +1,8 @@
 const FEATURE_DEFS = [
     { id: 'YT_SHORTS', defaultEnabled: true },
     { id: 'YT_VIDEO_SIDEBAR', defaultEnabled: true },
-    { id: 'YT_HOMESCREEN', defaultEnabled: true }
+    { id: 'YT_HOMESCREEN', defaultEnabled: true },
+    { id: 'YT_ADS', defaultEnabled: true }
 ];
 
 const RULE_DEFS = [
@@ -14,7 +15,8 @@ const RULE_DEFS = [
     { id: 'yt-channel-shorts-tab', keys: ['YT_SHORTS'], mode: 'any' },
     { id: 'yt-channel-shorts-grid', keys: ['YT_SHORTS'], mode: 'any' },
     { id: 'yt-channel-shorts-shelf', keys: ['YT_SHORTS'], mode: 'any' },
-    { id: 'yt-mobile-shorts-lockup', keys: ['YT_SHORTS'], mode: 'any' }
+    { id: 'yt-mobile-shorts-lockup', keys: ['YT_SHORTS'], mode: 'any' },
+    { id: 'yt-ads', keys: ['YT_ADS'], mode: 'any' }
 ];
 
 const INLINE_HIDE_ATTR = 'data-ff-inline-hidden';
@@ -94,7 +96,27 @@ function shouldRunDynamicShortsCleanup() {
     return state.globalEnabled && isFeatureEnabled('YT_SHORTS');
 }
 
+function skipAds() {
+    if (!state.globalEnabled || !isFeatureEnabled('YT_ADS')) return;
+
+    // Auto-click skip button when it appears
+    const skipBtn = document.querySelector('.ytp-skip-ad-button, .ytp-ad-skip-button');
+    if (skipBtn) skipBtn.click();
+
+    // Mute and fast-forward short unskippable ads
+    const video = document.querySelector('video');
+    const adBadge = document.querySelector('.ad-showing');
+    if (video && adBadge) {
+        video.muted = true;
+        video.playbackRate = 16;
+    } else if (video) {
+        video.muted = false;
+        if (video.playbackRate === 16) video.playbackRate = 1;
+    }
+}
+
 function applyDynamicRules() {
+    skipAds();
     if (shouldRunDynamicShortsCleanup()) {
         hideShortsByAriaLabel();
         return;

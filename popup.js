@@ -16,6 +16,12 @@ const FEATURE_DEFS = [
     label: 'Hide home recommendations',
     description: 'Home feed and end-screen recommendation cards',
     defaultEnabled: true
+  },
+  {
+    id: 'YT_ADS',
+    label: 'Block video ads',
+    description: 'Skip or hide pre-roll and mid-roll ads',
+    defaultEnabled: true
   }
 ];
 
